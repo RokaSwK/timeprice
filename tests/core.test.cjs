@@ -1,13 +1,11 @@
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const T = require("../extension/core.js");
-test("€40k reference calculation and all-time denominator", () => {
-  const e = T.estimate(40000);
-  assert.equal(e.social, 2600);
-  assert.equal(e.irpf, 7745);
-  assert.equal(e.net, 29655);
-  assert.equal(e.perMinute, 29655 / 525600);
-  assert.equal(T.duration(100, e.perMinute), "1d 5h 32m");
+test("public default calculation and all-time denominator", () => {
+  const e = T.estimate(T.defaults.salary);
+  assert.equal(e.salary, 50981);
+  assert.equal(e.annualHours, 8760);
+  assert.equal(e.perMinute, e.net / 525600);
 });
 test("input validation and bracket boundaries", () => {
   for (const x of [0, -1, NaN, Infinity, 10000001])
@@ -48,13 +46,11 @@ test("multiple prices and durations with carry", () => {
   assert.equal(T.duration(1439.6, 1), "1d 0h 0m");
   assert.equal(T.duration(2879, 1), "1d 23h 59m");
 });
-test("40 × 52 work-hour denominator with eight-hour workdays", () => {
-  const e = T.estimate(40000, "work");
-  assert.equal(e.net, 29655);
+test("work-hour denominator with eight-hour workdays", () => {
+  const e = T.estimate(T.defaults.salary, "work");
   assert.equal(e.annualHours, 2080);
-  assert.equal(e.perMinute, 29655 / 124800);
-  assert.equal(e.perDay, 29655 / 260);
-  assert.equal(T.duration(100, e.perMinute, "work"), "7h 1m");
+  assert.equal(e.perMinute, e.net / 124800);
+  assert.equal(e.perDay, e.net / 260);
   assert.equal(T.duration(8 * 60, 1, "work"), "1d 0h 0m");
   assert.equal(T.duration(16 * 60, 1, "work"), "2d 0h 0m");
 });

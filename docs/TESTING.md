@@ -10,7 +10,7 @@ DOM tests verify that original elements and styles survive replacement, partial 
 
 ## Manual Chrome checklist
 
-Load `extension/` unpacked or extract the release ZIP. Use the example €40,000 salary.
+Load `extension/` unpacked or extract the release ZIP. Use the public default salary.
 
 1. Check an ordinary euro price on Apple Spain and a split product price on IKEA Spain.
 2. Check dollar prices on Quince's [carry-on listing](https://www.quince.com/shop/home/travel/carryon-suitcases) and a product page.

@@ -255,7 +255,8 @@
     if (area !== "local") return;
     if (changes.fx) fx = changes.fx.newValue;
     if (!["salary", "enabled", "mode", "fx"].some((k) => changes[k])) return;
-    if (changes.salary) settings.salary = changes.salary.newValue || 40000;
+    if (changes.salary)
+      settings.salary = changes.salary.newValue || Timeprice.defaults.salary;
     if (changes.enabled) settings.enabled = changes.enabled.newValue !== false;
     if (changes.mode)
       settings.mode = changes.mode.newValue === "work" ? "work" : "all";

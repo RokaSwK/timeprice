@@ -1,6 +1,6 @@
 (function (root) {
   "use strict";
-  const defaults = { salary: 40000, enabled: true, mode: "all" };
+  const defaults = { salary: 50981, enabled: true, mode: "all" };
   const brackets = [
     [12450, 0.19],
     [20200, 0.24],

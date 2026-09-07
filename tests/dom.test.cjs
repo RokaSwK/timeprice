@@ -32,16 +32,16 @@ test("native text replacement preserves elements and restores prices; mode and s
   );
   const a = d.querySelector("a"),
     b = d.querySelector("b");
-  assert.equal(a.textContent, "Buy 1d 5h 32m now");
-  assert.equal(b.textContent, "5h 54m");
+  assert.equal(a.textContent, "Buy 1d 0h 15m now");
+  assert.equal(b.textContent, "4h 51m");
   assert.equal(d.querySelector("sup").textContent, "");
   assert.equal(d.querySelector("textarea").value, "20 €");
   assert.equal(d.querySelector("[contenteditable]").textContent, "30 €");
   assert.equal(d.querySelectorAll(".timeprice-badge").length, 0);
   assert.equal(a.style.fontSize, "24px");
   await change({ mode: { newValue: "work" } });
-  assert.equal(a.textContent, "Buy 7h 1m now");
-  assert.equal(b.textContent, "1h 24m");
+  assert.equal(a.textContent, "Buy 5h 45m now");
+  assert.equal(b.textContent, "1h 9m");
   await change({ salary: { newValue: 60000 } });
   assert.equal(a.textContent, "Buy 5h 1m now");
   await change({ enabled: { newValue: false } });
@@ -64,9 +64,9 @@ test("dynamic edits, new prices and partial split updates use fresh site values"
   extra.textContent = "50 €";
   d.body.append(extra);
   await settle();
-  assert.equal(d.querySelector("#p").textContent, "5h 54m");
-  assert.equal(d.querySelector(".price").textContent, "8h 52m");
-  assert.equal(extra.textContent, "14h 46m");
+  assert.equal(d.querySelector("#p").textContent, "4h 51m");
+  assert.equal(d.querySelector(".price").textContent, "7h 16m");
+  assert.equal(extra.textContent, "12h 8m");
   await change({ enabled: { newValue: false } });
   assert.equal(d.querySelector(".price").textContent, "29,99€");
   assert.equal(d.querySelector("#p").textContent, "20 €");
@@ -76,8 +76,8 @@ test("IKEA visible and screen-reader duplicates replace natively without badges"
   const html =
     '<span data-skapa="price@6.0.1" class="pipcom-price"><span aria-hidden="true"><span class="pipcom-price__integer">19</span><span class="pipcom-price__decimal">,99</span><span class="pipcom-price__currency">€</span></span><span class="pipcom-price__sr-text">El precio 19,99€</span></span>';
   const { dom, d, change } = await setup(html);
-  assert.equal(d.querySelector("[aria-hidden]").textContent, "5h 54m");
-  assert.equal(d.querySelector(".pipcom-price__sr-text").textContent, "5h 54m");
+  assert.equal(d.querySelector("[aria-hidden]").textContent, "4h 51m");
+  assert.equal(d.querySelector(".pipcom-price__sr-text").textContent, "4h 51m");
   await change({ enabled: { newValue: false } });
   assert.equal(d.body.innerHTML, html);
   dom.window.close();
@@ -104,12 +104,12 @@ test("Quince dollar price converts via exchange rate and restores", async () => 
   const value = 169.9 / fx.rates.USD;
   assert.equal(
     d.querySelector("#price").textContent,
-    T.duration(value, T.estimate(40000).perMinute),
+    T.duration(value, T.estimate(T.defaults.salary).perMinute),
   );
   await change({ mode: { newValue: "work" } });
   assert.equal(
     d.querySelector("#price").textContent,
-    T.duration(value, T.estimate(40000, "work").perMinute, "work"),
+    T.duration(value, T.estimate(T.defaults.salary, "work").perMinute, "work"),
   );
   assert.match(d.querySelector("#range").textContent, /m–\d+d/);
   await change({ enabled: { newValue: false } });
@@ -125,13 +125,13 @@ test("page currency metadata changes recalculate bare dollars", async () => {
     fx = dom.window.TimepriceFX.seed;
   assert.equal(
     d.querySelector("p").textContent,
-    T.duration(100 / fx.rates.CAD, T.estimate(40000).perMinute),
+    T.duration(100 / fx.rates.CAD, T.estimate(T.defaults.salary).perMinute),
   );
   d.querySelector("meta").setAttribute("content", "AUD");
   await settle();
   assert.equal(
     d.querySelector("p").textContent,
-    T.duration(100 / fx.rates.AUD, T.estimate(40000).perMinute),
+    T.duration(100 / fx.rates.AUD, T.estimate(T.defaults.salary).perMinute),
   );
   dom.window.close();
 });
@@ -143,7 +143,7 @@ test("detached converted elements restore before being reused", async () => {
   assert.equal(el.textContent, "10 €");
   d.body.append(el);
   await settle();
-  assert.equal(el.textContent, "2h 57m");
+  assert.equal(el.textContent, "2h 26m");
   dom.window.close();
 });
 test("new text added inside a split price does not preserve an obsolete conversion", async () => {
@@ -152,7 +152,7 @@ test("new text added inside a split price does not preserve an obsolete conversi
   );
   d.querySelector(".price").append(" sale");
   await settle();
-  assert.ok(!d.querySelector(".price").textContent.includes("5h 54m,99"));
+  assert.ok(!d.querySelector(".price").textContent.includes("4h 51m,99"));
   await change({ enabled: { newValue: false } });
   assert.equal(d.querySelector(".price").textContent, "19,99€ sale");
   dom.window.close();

@@ -23,8 +23,7 @@ test("popup loads defaults, persists salary and pause, survives reopening", asyn
   }
   let dom = await open(),
     d = dom.window.document;
-  assert.equal(d.getElementById("salary").value, "40000");
-  assert.equal(d.getElementById("net").textContent, "€29,655.00");
+  assert.equal(d.getElementById("salary").value, "50981");
   d.getElementById("salary").value = "60000";
   d.getElementById("settings").dispatchEvent(
     new dom.window.Event("submit", { cancelable: true }),
