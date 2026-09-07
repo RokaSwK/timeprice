@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Timeprice</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <span class="mark">◷</span>
+      <div>
+        <h1>Timeprice</h1>
+        <p>Your money, measured in life.</p>
+      </div>
+      <label class="toggle" title="Replace prices with time"
+        ><input
+          type="checkbox"
+          id="enabled"
+          aria-label="Replace prices with time" /><span></span
+      ></label>
+    </header>
+    <main>
+      <form id="settings">
+        <label for="salary">Yearly gross salary</label>
+        <div class="salary">
+          <span>€</span
+          ><input
+            id="salary"
+            type="number"
+            min="1"
+            max="10000000"
+            step="any"
+            value="40000"
+            required
+          />
+        </div>
+        <div class="form-bottom">
+          <span>Spain · estimated net</span
+          ><button type="submit">Save salary</button>
+        </div>
+        <p id="status" role="status" aria-live="polite"></p>
+      </form>
+      <label class="mode-row" for="work-mode"
+        ><span
+          ><b>Actual work hours</b
+          ><small>40 hours/week × 52 weeks/year</small></span
+        ><input type="checkbox" id="work-mode"
+      /></label>
+      <section class="hero">
+        <p id="basis">EVERY MINUTE OF YOUR YEAR</p>
+        <div><strong id="minute">—</strong><span> / min</span></div>
+        <p id="rhythm">—</p>
+        <div class="year">Estimated yearly take-home <b id="net">—</b></div>
+      </section>
+      <section class="example">
+        <span>A €100 purchase</span><strong id="example">—</strong
+        ><span>of your time</span>
+      </section>
+      <p class="explain" id="explain">
+        Your net salary ÷ 365 days ÷ 24 hours ÷ 60 minutes. Every minute counts,
+        even when you’re asleep.
+      </p>
+      <details>
+        <summary>How the estimate works</summary>
+        <p>
+          2026 employee Social Security (6.50%, capped, plus solidarity above
+          the cap). Indicative combined IRPF bands: 19 / 24 / 30 / 37 / 45 /
+          47%. Includes €2,000 employment expenses, €5,550 personal minimum and
+          the low-income work reduction.
+        </p>
+        <p>
+          Assumes under 65, no children, permanent employment, salary only. This
+          is a general Spanish estimate: regional rates, family deductions,
+          minimum contribution bases and special regimes can change your actual
+          net pay.
+        </p>
+        <dl>
+          <dt>Social Security</dt>
+          <dd id="social"></dd>
+          <dt>Estimated IRPF</dt>
+          <dd id="irpf"></dd>
+        </dl>
+        <a
+          href="https://www.boe.es/eli/es/o/2026/03/30/pjc297"
+          target="_blank"
+          rel="noreferrer"
+          >2026 Social Security rules ↗</a
+        ><a
+          href="https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025.html"
+          target="_blank"
+          rel="noreferrer"
+          >AEAT income tax reference ↗</a
+        >
+        <p>
+          After updating this local extension, reload it and refresh your
+          shopping tabs.
+        </p>
+        <button type="button" id="reload-extension">
+          Reload local extension
+        </button>
+      </details>
+      <details class="currency-details">
+        <summary>Currencies &amp; exchange rates</summary>
+        <p>
+          30 currencies: USD, EUR, GBP, CAD, AUD, CHF, JPY and more. Prices
+          convert to euros before becoming time.
+        </p>
+        <p id="fx-status" role="status">Loading exchange rates…</p>
+        <button type="button" id="refresh-rates">Refresh rates</button>
+        <p>
+          Currency codes and explicit symbols take priority. Bare $ uses the
+          page’s currency metadata or region, otherwise USD. Bare ¥ defaults to
+          JPY (CNY on Chinese pages). Unsupported currencies or rates older than
+          14 days stay as money.
+        </p>
+        <a href="https://frankfurter.dev/v1/" target="_blank" rel="noreferrer"
+          >Daily reference rates via Frankfurter ↗</a
+        >
+        <p>
+          Only public exchange rates are requested. Salary and browsing
+          information are never sent. Card fees and merchant conversion markups
+          are not included.
+        </p>
+      </details>
+      <footer>Multi-currency · Local salary storage · No tracking</footer>
+    </main>
+    <script src="fx.js"></script>
+    <script src="core.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
