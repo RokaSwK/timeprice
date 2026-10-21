@@ -2,7 +2,7 @@
 
 ## Automated
 
-Run `npm ci && npm run check && npm run package`.
+Run `pnpm install && pnpm check && pnpm package`.
 
 Unit tests cover Spanish reference calculations, duration boundaries, international currency formats, explicit and inferred currency codes, unsupported currencies, conversion direction, cache validation, request deduplication and offline fallback.
 

@@ -1,6 +1,6 @@
 # Contributing
 
-Use Node.js 22 or later. Run `npm ci`, make the change, then run `npm run format`, `npm run check`, and `npm run package`.
+Use Node.js 22 or later. Run `pnpm install`, make the change, then run `pnpm format`, `pnpm check`, and `pnpm package`.
 
 Keep changes focused. Add a regression test for a parsing or restoration bug. Tests must be offline and independent of the current date: inject a clock when testing dated exchange-rate fixtures. Prefer minimal authored markup to scraped pages. Do not add real account data, browser profiles, credentials, or private URLs.
 

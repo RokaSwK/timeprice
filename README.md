@@ -62,12 +62,12 @@ Timeprice changes displayed text only. It cannot change checkout totals or make 
 Node.js 22 or later is required. The shipped extension has no runtime package dependencies.
 
 ```sh
-npm ci
-npm run check
-npm run package
+pnpm install
+pnpm check
+pnpm package
 ```
 
-`npm run check` verifies formatting and runs deterministic offline tests. `npm run package` creates and validates an installable ZIP in `dist/`. See [docs/TESTING.md](docs/TESTING.md) and [CONTRIBUTING.md](CONTRIBUTING.md).
+`pnpm check` verifies formatting and runs deterministic offline tests. `pnpm package` creates and validates an installable ZIP in `dist/`. See [docs/TESTING.md](docs/TESTING.md) and [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 

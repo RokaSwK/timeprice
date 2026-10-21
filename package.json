@@ -6,7 +6,7 @@
     "test": "node --test tests/*.test.cjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "npm run format:check && npm test",
+    "check": "pnpm format:check && pnpm test",
     "package": "node scripts/package.cjs"
   },
   "devDependencies": {
@@ -22,5 +22,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/RokaSwK/timeprice.git"
-  }
+  },
+  "packageManager": "pnpm@11.7.0"
 }

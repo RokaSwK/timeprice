@@ -7,6 +7,6 @@ The extension runtime contains project-authored JavaScript, HTML and CSS, plus a
 - [Prettier](https://github.com/prettier/prettier): MIT-licensed development dependency for formatting.
 - [fflate](https://github.com/101arrowz/fflate): MIT-licensed development dependency for release packaging.
 
-These npm packages and their transitive dependencies retain their own notices in their published packages. They are not included in the extension ZIP. `package-lock.json` records exact development dependency versions.
+These npm packages and their transitive dependencies retain their own notices in their published packages. They are not included in the extension ZIP. `pnpm-lock.yaml` records exact development dependency versions.
 
 Apple, IKEA and Quince are third-party names used only for compatibility discussion. Test fixtures are small authored examples of markup patterns, not copies of complete retailer pages or product assets.
