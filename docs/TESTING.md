@@ -8,6 +8,10 @@ Unit tests cover Spanish reference calculations, duration boundaries, internatio
 
 DOM tests verify that original elements and styles survive replacement, partial page updates use fresh values, disabling restores original text, currency changes recalculate, and salary/mode settings persist. Authored fixtures model common Apple-style inline prices, IKEA-style visible/screen-reader duplicates, and Quince-style dollar cards. Tests do not contact retailers or rate services.
 
+## Mac app
+
+Run `xcodebuild -project mac/Timeprice.xcodeproj -scheme Timeprice -derivedDataPath mac/build test`. `ParityTests` evaluates the shipped `extension/core.js` in JavaScriptCore and requires the Swift port to return bit-identical estimates and identical duration strings for hundreds of salaries in both modes. `EarningsTests` covers schedule accrual, week and month totals, daylight-saving changeover days, and the shared state file. `tests/safari.test.cjs` (part of `pnpm check`) keeps the Safari manifest in step with the Chrome one and tests the Safari price bridge on `mac/Demo/product.html`.
+
 ## Manual Chrome checklist
 
 Load `extension/` unpacked or extract the release ZIP. Use the public default salary.
@@ -15,7 +19,7 @@ Load `extension/` unpacked or extract the release ZIP. Use the public default sa
 1. Check an ordinary euro price on Apple Spain and a split product price on IKEA Spain.
 2. Check dollar prices on Quince's [carry-on listing](https://www.quince.com/shop/home/travel/carryon-suitcases) and a product page.
 3. Confirm text inherits site styling, comparison-price strikethrough remains, and no badges appear.
-4. Switch between all-time and 40 × 52 work-hours mode without reloading. In work mode, €100 should be `7h 1m`; in all-time mode, `1d 5h 32m`.
+4. Switch between all-time and 40 × 52 work-hours mode without reloading. At the default salary, €100 should be `5h 45m` in work mode and `1d 0h 15m` in all-time mode.
 5. Change salary, reopen the popup, and confirm persistence. Restore the default.
 6. Disable the extension and verify original prices return. Re-enable it.
 7. Use **Currencies & exchange rates → Refresh rates**. Check the date and displayed reference rate. Expected foreign-price time depends on the current rate.

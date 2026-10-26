@@ -22,6 +22,10 @@ This URL is fixed. Requests omit credentials and referrers and do not include sa
 
 No clipboard, browser-history, cookie, account, or payment permissions are requested.
 
+## Mac app and Safari extension
+
+The optional Mac app has no network access of its own. In Safari, the extension additionally reads the main product name and price from the page you are viewing (from structured product data) and passes the product name, shop host name, and price to the Timeprice app on your Mac through Safari's native messaging. The app keeps the 40 most recent prices and your settings in `~/Library/Application Support/Timeprice/shared.json`. Nothing is sent off your device, and full page URLs are not stored. The extra `nativeMessaging` permission exists only for this local hand-off.
+
 ## Removing data
 
-Uninstalling Timeprice removes its local extension storage through Chrome's normal extension removal process. Refresh open tabs to restore the original website rendering. Reports you submit to GitHub are governed by GitHub's policies; do not post salaries, account details, or unredacted private page captures in public issues.
+Uninstalling Timeprice removes its local extension storage through Chrome's normal extension removal process. To remove Mac app data, delete the app and `~/Library/Application Support/Timeprice/`. Refresh open tabs to restore the original website rendering. Reports you submit to GitHub are governed by GitHub's policies; do not post salaries, account details, or unredacted private page captures in public issues.

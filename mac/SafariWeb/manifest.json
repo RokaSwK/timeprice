@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Timeprice — Prices in your time",
+  "version": "1.1.2",
+  "description": "Replace multi-currency prices with your time using Spanish net salary estimates and daily exchange rates.",
+  "permissions": ["storage", "nativeMessaging"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Timeprice — Your money, your time"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["fx.js", "core.js", "content.js", "safari-bridge.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "scripts": [
+      "safari-shim.js",
+      "fx.js",
+      "core.js",
+      "background.js",
+      "safari-background.js"
+    ],
+    "persistent": false
+  },
+  "host_permissions": ["https://api.frankfurter.dev/*"]
+}

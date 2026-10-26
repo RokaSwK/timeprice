@@ -6,3 +6,6 @@ dist/
 !.env.example
 *.pem
 *.key
+mac/build/
+xcuserdata/
+*.xcuserstate
