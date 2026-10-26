@@ -92,6 +92,8 @@ enum AssetRenderer {
         for (name, presentation, tab) in states {
             let m = model(presentation, tab: tab)
             try write(darkCrop(m), to: dir.appendingPathComponent("notch-\(name).png"))
+            // The notch alone on transparency, for compositing onto other backdrops.
+            try write(NotchRootView(model: m), to: dir.appendingPathComponent("cutout-\(name).png"))
             let desktop = DesktopScene(
                 metrics: m.metrics, size: CGSize(width: 1512, height: 560), date: demoDate,
                 page: pages.after, timeZone: timeZone
