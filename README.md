@@ -57,6 +57,48 @@ Salary, settings, and exchange-rate metadata stay in Chrome's local extension st
 
 Timeprice changes displayed text only. It cannot change checkout totals or make purchases. Chrome internal pages, the Chrome Web Store, PDFs, image or canvas text, shadow roots, and frames are outside its current coverage. Website changes can break price detection; pause the extension if a page behaves unexpectedly.
 
+## Mac app (notch) and Safari extension
+
+`mac/` contains a native macOS 15+ SwiftUI app that lives in the MacBook notch, plus a Safari Web Extension built from the same `extension/` files.
+
+- **At rest**, a black pill sits flush with the notch with a live earnings ticker beside it during work hours.
+- **Hover** to see what you have earned today (ticking up live), progress through the workday, this week and month, and your net hourly rate.
+- **Price alerts**: when the Safari extension sees a product price on the page you are viewing, the notch briefly expands, e.g. `AirPods Pro 3 · €279.00 · 2d 0h 4m of work`.
+- **Click** for a panel with Today, Prices (recently seen prices in time) and Settings (gross salary, work days and hours, work or all-time mode). A menu bar item has the same shortcuts and Quit.
+
+The app does not maintain its own salary math. `mac/Shared/SalaryModel.swift` is a line-for-line port of `estimate()` and `duration()`, and the unit tests run `extension/core.js` in JavaScriptCore to check that the port's results are bit-identical. Earnings accrue at the work-time rate (net ÷ 2,080 h) during your scheduled hours, so the ticker agrees with work-mode prices. The time mode only changes how prices are expressed, as in the extension. On displays without a notch, the pill sits at the top centre of the screen.
+
+### Build and run
+
+Requires Xcode 16 or later (built with Xcode 27.1). No Apple Developer account is needed because the build is signed ad hoc.
+
+```sh
+xcodebuild -project mac/Timeprice.xcodeproj -scheme Timeprice \
+  -configuration Debug -derivedDataPath mac/build build
+open mac/build/Build/Products/Debug/Timeprice.app
+xcodebuild -project mac/Timeprice.xcodeproj -scheme Timeprice \
+  -derivedDataPath mac/build test
+```
+
+The extension target copies `extension/*.js|css|html` into the appex at build time. Only the Safari manifest and three small shims live in `mac/SafariWeb/`:
+
+- `safari-shim.js` makes `importScripts` a no-op in Safari's non-persistent background page.
+- `safari-bridge.js` reports the product price on the current page.
+- `safari-background.js` forwards prices to the app and syncs `salary`, `mode` and `enabled` both ways.
+
+Edit `extension/`, rebuild, and both browsers pick up the change.
+
+### Enable the unsigned Safari extension
+
+1. Launch `Timeprice.app` once so macOS registers the embedded extension.
+2. In Safari, open **Settings → Advanced** and turn on **Show features for web developers**.
+3. Choose **Develop → Allow Unsigned Extensions** (on recent Safari versions this is under **Settings → Developer**). Safari resets this whenever it quits.
+4. In **Settings → Extensions**, enable **Timeprice** and allow it on the websites you want.
+
+The extension's native handler and the app exchange data through `~/Library/Application Support/Timeprice/shared.json` and a local distributed notification. The sandboxed extension reaches that file through a temporary home-relative sandbox exception, which works in ad-hoc builds. A signed distribution build should switch to a Team-ID-prefixed App Group.
+
+Hidden flags for demos: `--demo-alert` shows a sample price alert, `--open today|prices|settings|expanded` opens a state, and `--pin` keeps it open. `Timeprice --render-assets <dir> [--frames]` renders every notch state to 2x PNGs with deterministic demo data, both on a dark crop and composited over a desktop, plus before-and-after captures of `mac/Demo/product.html` in WebKit with the real extension scripts injected.
+
 ## Development
 
 Node.js 22 or later is required. The shipped extension has no runtime package dependencies.
